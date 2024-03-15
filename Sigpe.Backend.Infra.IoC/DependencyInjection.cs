@@ -10,7 +10,7 @@ namespace Sigpe.Backend.Infra.IoC
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<AppDbContext>(options =>
-                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"), b =>
+                options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"), b =>
                 b.MigrationsAssembly(typeof(AppDbContext).Assembly.FullName)));
 
             return services;

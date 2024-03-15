@@ -7,7 +7,7 @@ namespace Sigpe.Backend.Domain.Entities
         public int Id { get; set; }
         public string Email { get; set; }
         public string Senha { get; set; }
-        public int PessoaId { get; set; }
+        public int? PessoaId { get; set; }
         public TipoUsuarioEnum TipoUsuario { get; set; }
     }
 }
