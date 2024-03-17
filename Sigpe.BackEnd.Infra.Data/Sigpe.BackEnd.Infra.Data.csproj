@@ -22,8 +22,4 @@
     <ProjectReference Include="..\Sigpe.Backend.Domain\Sigpe.Backend.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Repositories\" />
-  </ItemGroup>
-
 </Project>
