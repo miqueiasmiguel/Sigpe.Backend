@@ -8,7 +8,9 @@ namespace Sigpe.Backend.Application.Mapping
     {
         public MappingProfile()
         {
-            CreateMap<MedicamentoDto, Medicamento>();
+            CreateMap<MedicamentoDto, Medicamento>()
+                .ForMember(e => e.Prescricoes, opt => opt.Ignore())
+                .ForMember(e => e.Alergicos, opt => opt.Ignore());
             CreateMap<Medicamento, MedicamentoDto>();
         }
     }

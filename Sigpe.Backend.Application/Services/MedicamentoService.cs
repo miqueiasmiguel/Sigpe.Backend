@@ -26,13 +26,16 @@ namespace Sigpe.Backend.Application.Services
             return _mapper.Map<MedicamentoDto>(medicamento);
         }
 
-        public async Task<MedicamentoDto> DeleteAsync(MedicamentoDto dto)
+        public async Task DeleteAsync(int id)
         {
-            var medicamento = _mapper.Map<Medicamento>(dto);
+            var medicamento = await _medicamentoRepository.GetByIdAsync(id);
 
-            medicamento = await _medicamentoRepository.DeleteAsync(medicamento);
+            if (medicamento == null)
+            {
+                throw new Exception("Medicamento não encontrado.");
+            }
 
-            return _mapper.Map<MedicamentoDto>(medicamento);
+            await _medicamentoRepository.DeleteAsync(medicamento);
         }
 
         public async Task<IEnumerable<MedicamentoDto>> GetAsync()
