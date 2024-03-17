@@ -1,6 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Sigpe.Backend.Application.Interfaces;
+using Sigpe.Backend.Application.Mapping;
+using Sigpe.Backend.Application.Services;
 using Sigpe.Backend.Domain.Interfaces;
 using Sigpe.BackEnd.Infra.Data.Context;
 using Sigpe.BackEnd.Infra.Data.Repositories;
@@ -15,6 +18,8 @@ namespace Sigpe.Backend.Infra.IoC
                 options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"), b =>
                 b.MigrationsAssembly(typeof(AppDbContext).Assembly.FullName)));
 
+            services.AddAutoMapper(typeof(MappingProfile));
+
             services.AddScoped<IAgendamentoRepository, AgendamentoRepository>();
             services.AddScoped<IEspecialidadeRepository, EspecialidadeRepository>();
             services.AddScoped<IMedicamentoRepository, MedicamentoRepository>();
@@ -23,6 +28,8 @@ namespace Sigpe.Backend.Infra.IoC
             services.AddScoped<IPlanoSaudeRepository, PlanoSaudeRepository>();
             services.AddScoped<IPrescricaoRepository, PrescricaoRepository>();
             services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+
+            services.AddScoped<IMedicamentoService, MedicamentoService>();
 
             return services;
         }
