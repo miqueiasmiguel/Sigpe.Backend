@@ -2,7 +2,7 @@
 
 namespace Sigpe.Backend.Domain.Interfaces
 {
-    public interface IEspecialidade : IRepository<Especialidade>
+    public interface IAgendamentoRepository : IRepository<Agendamento>
     {
     }
 }

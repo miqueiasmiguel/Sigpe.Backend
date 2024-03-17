@@ -2,7 +2,7 @@
 
 namespace Sigpe.Backend.Domain.Interfaces
 {
-    public interface IMedico : IRepository<Medico>
+    public interface IPacienteRepository : IRepository<Paciente>
     {
     }
 }

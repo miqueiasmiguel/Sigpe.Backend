@@ -2,7 +2,7 @@
 
 namespace Sigpe.Backend.Domain.Interfaces
 {
-    public interface IUsuario : IRepository<Usuario>
+    public interface IUsuarioRepository : IRepository<Usuario>
     {
     }
 }
