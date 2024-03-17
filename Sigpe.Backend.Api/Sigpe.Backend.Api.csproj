@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Sigpe.Backend.Infra.IoC\Sigpe.Backend.Infra.IoC.csproj" />
   </ItemGroup>
 
