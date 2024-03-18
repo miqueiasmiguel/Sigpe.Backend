@@ -16,6 +16,9 @@ namespace Sigpe.Backend.Application.Mapping
             CreateMap<EspecialidadeDto, Especialidade>()
                 .ForMember(e => e.Medicos, opt => opt.Ignore());
             CreateMap<Especialidade, EspecialidadeDto>();
+
+            CreateMap<PlanoSaudeDto, PlanoSaude>();
+            CreateMap<PlanoSaude, PlanoSaudeDto>();
         }
     }
 }
