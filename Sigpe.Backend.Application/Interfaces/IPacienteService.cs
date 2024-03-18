@@ -2,7 +2,7 @@
 
 namespace Sigpe.Backend.Application.Interfaces
 {
-    internal interface IPacienteService : IService<PacienteDto>
+    public interface IPacienteService : IService<PacienteDto>
     {
     }
 }
