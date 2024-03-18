@@ -29,9 +29,14 @@ namespace Sigpe.Backend.Infra.IoC
             services.AddScoped<IPrescricaoRepository, PrescricaoRepository>();
             services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 
+            services.AddScoped<IAgendamentoService, AgendamentoService>();
             services.AddScoped<IEspecialidadeService, EspecialidadeService>();
             services.AddScoped<IMedicamentoService, MedicamentoService>();
+            services.AddScoped<IMedicoService, MedicoService>();
+            services.AddScoped<IPacienteService, PacienteService>();
             services.AddScoped<IPlanoSaudeService, PlanoSaudeService>();
+            services.AddScoped<IPrescricaoService, PrescricaoService>();
+            services.AddScoped<IUsuarioService, UsuarioService>();
 
             return services;
         }
