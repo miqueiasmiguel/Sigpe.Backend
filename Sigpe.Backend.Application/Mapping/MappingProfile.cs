@@ -12,6 +12,10 @@ namespace Sigpe.Backend.Application.Mapping
                 .ForMember(e => e.Prescricoes, opt => opt.Ignore())
                 .ForMember(e => e.Alergicos, opt => opt.Ignore());
             CreateMap<Medicamento, MedicamentoDto>();
+
+            CreateMap<EspecialidadeDto, Especialidade>()
+                .ForMember(e => e.Medicos, opt => opt.Ignore());
+            CreateMap<Especialidade, EspecialidadeDto>();
         }
     }
 }
