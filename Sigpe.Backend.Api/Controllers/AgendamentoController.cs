@@ -18,43 +18,78 @@ namespace Sigpe.Backend.Api.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAsync()
         {
-            var agendamentosDto = await _agendamentoService.GetAsync();
+            try
+            {
+                var agendamentosDto = await _agendamentoService.GetAsync();
 
-            return Ok(agendamentosDto);
+                return Ok(agendamentosDto);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { StatusCode = 400, ex.Message });
+            }
         }
 
         [HttpGet]
         [Route("{id}")]
         public async Task<IActionResult> GetByIdAsync(int id)
         {
-            var agendamentosDto = await _agendamentoService.GetByIdAsync(id);
+            try
+            {
+                var agendamentosDto = await _agendamentoService.GetByIdAsync(id);
 
-            return Ok(agendamentosDto);
+                return Ok(agendamentosDto);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { StatusCode = 400, ex.Message });
+            }
         }
 
         [HttpPost]
         public async Task<IActionResult> PostAsync([FromBody] AgendamentoDto dto)
         {
-            var agendamentoDto = await _agendamentoService.CreateAsync(dto);
+            try
+            {
+                var agendamentoDto = await _agendamentoService.CreateAsync(dto);
 
-            return Ok(agendamentoDto);
+                return Ok(agendamentoDto);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { StatusCode = 400, ex.Message });
+            }
         }
 
         [HttpDelete]
         [Route("{id}")]
         public async Task<IActionResult> DeleteAsync(int id)
         {
-            await _agendamentoService.DeleteAsync(id);
+            try
+            {
+                await _agendamentoService.DeleteAsync(id);
 
-            return Ok();
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { StatusCode = 400, ex.Message });
+            }
         }
 
         [HttpPut]
         public async Task<IActionResult> PutAsync([FromBody] AgendamentoDto dto)
         {
-            var agendamentoDto = await _agendamentoService.UpdateAsync(dto);
+            try
+            {
+                var agendamentoDto = await _agendamentoService.UpdateAsync(dto);
 
-            return Ok(agendamentoDto);
+                return Ok(agendamentoDto);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { StatusCode = 400, ex.Message });
+            }
         }
     }
 }
