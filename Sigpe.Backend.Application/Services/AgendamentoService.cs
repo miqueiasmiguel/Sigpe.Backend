@@ -1,7 +1,8 @@
 ﻿using AutoMapper;
 using Sigpe.Backend.Application.Dtos;
-using Sigpe.Backend.Application.Interfaces;
+using Sigpe.Backend.Application.Interfaces.Services;
 using Sigpe.Backend.Domain.Entities;
+using Sigpe.Backend.Domain.Enums;
 using Sigpe.Backend.Domain.Interfaces;
 
 namespace Sigpe.Backend.Application.Services
@@ -20,6 +21,8 @@ namespace Sigpe.Backend.Application.Services
         public async Task<AgendamentoDto> CreateAsync(AgendamentoDto dto)
         {
             var agendamento = _mapper.Map<Agendamento>(dto);
+
+            agendamento.Status = StatusAgendamentoEnum.SOLICITADO;
 
             agendamento = await _agendamentoRepository.CreateAsync(agendamento);
 

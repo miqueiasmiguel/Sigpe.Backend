@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Sigpe.Backend.Application.Dtos;
-using Sigpe.Backend.Application.Interfaces;
+using Sigpe.Backend.Application.Interfaces.Services;
 
 namespace Sigpe.Backend.Api.Controllers
 {

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Sigpe.Backend.Application.Dtos;
-using Sigpe.Backend.Application.Interfaces;
+using Sigpe.Backend.Application.Interfaces.Services;
 
 namespace Sigpe.Backend.Api.Controllers
 {
@@ -18,43 +18,79 @@ namespace Sigpe.Backend.Api.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAsync()
         {
-            var medicamentosDto = await _medicamentoService.GetAsync();
+            try
+            {
+                var medicamentosDto = await _medicamentoService.GetAsync();
 
-            return Ok(medicamentosDto);
+                return Ok(medicamentosDto);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { StatusCode = 400, ex.Message });
+            }
         }
 
         [HttpGet]
         [Route("{id}")]
         public async Task<IActionResult> GetByIdAsync(int id)
         {
-            var medicamentosDto = await _medicamentoService.GetByIdAsync(id);
+            try
+            {
+                var medicamentosDto = await _medicamentoService.GetByIdAsync(id);
 
-            return Ok(medicamentosDto);
+                return Ok(medicamentosDto);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { StatusCode = 400, ex.Message });
+            }
         }
 
         [HttpPost]
         public async Task<IActionResult> PostAsync([FromBody] MedicamentoDto dto)
         {
-            var medicamentoDto = await _medicamentoService.CreateAsync(dto);
+            try
+            {
+                var medicamentoDto = await _medicamentoService.CreateAsync(dto);
 
-            return Ok(medicamentoDto);
+                return Ok(medicamentoDto);
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(new { StatusCode = 400, ex.Message });
+            }
         }
 
         [HttpDelete]
         [Route("{id}")]
         public async Task<IActionResult> DeleteAsync(int id)
         {
-            await _medicamentoService.DeleteAsync(id);
+            try
+            {
+                await _medicamentoService.DeleteAsync(id);
 
-            return Ok();
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { StatusCode = 400, ex.Message });
+            }
         }
 
         [HttpPut]
         public async Task<IActionResult> PutAsync([FromBody] MedicamentoDto dto)
         {
-            var medicamentoDto = await _medicamentoService.UpdateAsync(dto);
+            try
+            {
+                var medicamentoDto = await _medicamentoService.UpdateAsync(dto);
 
-            return Ok(medicamentoDto);
+                return Ok(medicamentoDto);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { StatusCode = 400, ex.Message });
+            }
         }
     }
 }

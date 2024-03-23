@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Sigpe.Backend.Application.Dtos;
-using Sigpe.Backend.Application.Interfaces;
+using Sigpe.Backend.Application.Interfaces.Services;
 using Sigpe.Backend.Domain.Entities;
 using Sigpe.Backend.Domain.Interfaces;
 

@@ -1,6 +1,6 @@
 ﻿using Sigpe.Backend.Application.Dtos;
 
-namespace Sigpe.Backend.Application.Interfaces
+namespace Sigpe.Backend.Application.Interfaces.Services
 {
     public interface IAgendamentoService : IService<AgendamentoDto>
     {

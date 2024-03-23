@@ -39,6 +39,11 @@ namespace Sigpe.BackEnd.Infra.Data.Repositories
             return await _context.Medicamentos.FindAsync(id);
         }
 
+        public async Task<Medicamento?> GetByNomeAsync(string nome)
+        {
+            return await _context.Medicamentos.FirstOrDefaultAsync(m => m.Nome == nome);
+        }
+
         public async Task<Medicamento> UpdateAsync(Medicamento entity)
         {
             _context.Update(entity);

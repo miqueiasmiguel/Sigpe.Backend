@@ -1,9 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Sigpe.Backend.Application.Interfaces;
+using Sigpe.Backend.Application.Interfaces.Services;
+using Sigpe.Backend.Application.Interfaces.Validation;
 using Sigpe.Backend.Application.Mapping;
 using Sigpe.Backend.Application.Services;
+using Sigpe.Backend.Application.Validation;
 using Sigpe.Backend.Domain.Interfaces;
 using Sigpe.BackEnd.Infra.Data.Context;
 using Sigpe.BackEnd.Infra.Data.Repositories;
@@ -37,6 +39,8 @@ namespace Sigpe.Backend.Infra.IoC
             services.AddScoped<IPlanoSaudeService, PlanoSaudeService>();
             services.AddScoped<IPrescricaoService, PrescricaoService>();
             services.AddScoped<IUsuarioService, UsuarioService>();
+
+            services.AddScoped<IMedicamentoServiceValidator, MedicamentoServiceValidator>();
 
             return services;
         }
