@@ -2,7 +2,6 @@
 using Sigpe.Backend.Application.Dtos;
 using Sigpe.Backend.Application.Interfaces.Services;
 using Sigpe.Backend.Application.Interfaces.Validation;
-using Sigpe.Backend.Application.Validation;
 using Sigpe.Backend.Domain.Entities;
 using Sigpe.Backend.Domain.Interfaces;
 

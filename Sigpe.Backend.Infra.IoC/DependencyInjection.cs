@@ -42,6 +42,7 @@ namespace Sigpe.Backend.Infra.IoC
 
             services.AddScoped<IEspecialidadeServiceValidator, EspecialidadeServiceValidator>();
             services.AddScoped<IMedicamentoServiceValidator, MedicamentoServiceValidator>();
+            services.AddScoped<IPlanoSaudeServiceValidator, PlanoSaudeServiceValidator>();
 
             return services;
         }

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Sigpe.Backend.Application.Dtos;
 using Sigpe.Backend.Application.Interfaces.Services;
+using Sigpe.Backend.Application.Interfaces.Validation;
 using Sigpe.Backend.Domain.Entities;
 using Sigpe.Backend.Domain.Interfaces;
 
@@ -9,16 +10,20 @@ namespace Sigpe.Backend.Application.Services
     public class PlanoSaudeService : IPlanoSaudeService
     {
         private readonly IPlanoSaudeRepository _planoSaudeRepository;
+        private readonly IPlanoSaudeServiceValidator _planoSaudeServiceValidator;
         private readonly IMapper _mapper;
 
-        public PlanoSaudeService(IPlanoSaudeRepository planoSaudeRepository, IMapper mapper)
+        public PlanoSaudeService(IPlanoSaudeRepository planoSaudeRepository, IMapper mapper, IPlanoSaudeServiceValidator planoSaudeServiceValidator)
         {
             _planoSaudeRepository = planoSaudeRepository;
             _mapper = mapper;
+            _planoSaudeServiceValidator = planoSaudeServiceValidator;
         }
 
         public async Task<PlanoSaudeDto> CreateAsync(PlanoSaudeDto dto)
         {
+            await _planoSaudeServiceValidator.Validar(dto);
+
             var planoSaude = _mapper.Map<PlanoSaude>(dto);
 
             planoSaude = await _planoSaudeRepository.CreateAsync(planoSaude);
@@ -56,6 +61,8 @@ namespace Sigpe.Backend.Application.Services
 
         public async Task<PlanoSaudeDto> UpdateAsync(PlanoSaudeDto dto)
         {
+            await _planoSaudeServiceValidator.Validar(dto);
+
             var planoSaude = _mapper.Map<PlanoSaude>(dto);
 
             planoSaude = await _planoSaudeRepository.UpdateAsync(planoSaude);

@@ -40,6 +40,11 @@ namespace Sigpe.BackEnd.Infra.Data.Repositories
             return await _context.PlanosSaude.FindAsync(id);
         }
 
+        public async Task<PlanoSaude?> GetByNomeAsync(string nome)
+        {
+            return await _context.PlanosSaude.FirstOrDefaultAsync(e => e.Nome.ToUpper() == nome.ToUpper());
+        }
+
         public async Task<PlanoSaude> UpdateAsync(PlanoSaude entity)
         {
             _context.Update(entity);
