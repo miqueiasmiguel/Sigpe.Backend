@@ -41,7 +41,7 @@ namespace Sigpe.BackEnd.Infra.Data.Repositories
 
         public async Task<Medicamento?> GetByNomeAsync(string nome)
         {
-            return await _context.Medicamentos.FirstOrDefaultAsync(m => m.Nome == nome);
+            return await _context.Medicamentos.FirstOrDefaultAsync(e => e.Nome.ToUpper() == nome.ToUpper());
         }
 
         public async Task<Medicamento> UpdateAsync(Medicamento entity)

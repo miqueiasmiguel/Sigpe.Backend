@@ -13,11 +13,11 @@ namespace Sigpe.Backend.Application.Validation
             _medicamentoRepository = medicamentoRepository;
         }
 
-        public void Validar(MedicamentoDto dto)
+        public async Task Validar(MedicamentoDto dto)
         {
             ValidarObjetoNulo(dto);
-            ValidarNome(dto);
-            ValidarObjetoExistente(dto);
+            ValidarCamposObrigatorios(dto);
+            await ValidarObjetoExistente(dto);
         }
 
         private void ValidarObjetoNulo(MedicamentoDto dto)
@@ -25,11 +25,11 @@ namespace Sigpe.Backend.Application.Validation
             ArgumentNullException.ThrowIfNull(dto);
         }
 
-        private void ValidarNome(MedicamentoDto dto)
+        private void ValidarCamposObrigatorios(MedicamentoDto dto)
         {
             if (string.IsNullOrEmpty(dto.Nome))
             {
-                throw new Exception("O nome é obrigatório.");
+                throw new Exception($"{nameof(dto.Nome)} é obrigatório.");
             }
         }
 
@@ -37,9 +37,9 @@ namespace Sigpe.Backend.Application.Validation
         {
             var medicamento = await _medicamentoRepository.GetByNomeAsync(dto.Nome);
 
-            if (medicamento != null)
+            if (medicamento != null && medicamento.Id != dto.Id)
             {
-                throw new Exception("Já existe um medicamento cadastrado com este nome.");
+                throw new Exception("Já existe outro medicamento cadastrado com este nome.");
             }
         }
     }

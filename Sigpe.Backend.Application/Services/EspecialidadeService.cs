@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using Sigpe.Backend.Application.Dtos;
 using Sigpe.Backend.Application.Interfaces.Services;
+using Sigpe.Backend.Application.Interfaces.Validation;
+using Sigpe.Backend.Application.Validation;
 using Sigpe.Backend.Domain.Entities;
 using Sigpe.Backend.Domain.Interfaces;
 
@@ -9,16 +11,20 @@ namespace Sigpe.Backend.Application.Services
     public class EspecialidadeService : IEspecialidadeService
     {
         private readonly IEspecialidadeRepository _especialidadeRepository;
+        private readonly IEspecialidadeServiceValidator _especialidadeServiceValidator;
         private readonly IMapper _mapper;
 
-        public EspecialidadeService(IEspecialidadeRepository especialidadeRepository, IMapper mapper)
+        public EspecialidadeService(IEspecialidadeRepository especialidadeRepository, IMapper mapper, IEspecialidadeServiceValidator especialidadeServiceValidator)
         {
             _especialidadeRepository = especialidadeRepository;
             _mapper = mapper;
+            _especialidadeServiceValidator = especialidadeServiceValidator;
         }
 
         public async Task<EspecialidadeDto> CreateAsync(EspecialidadeDto dto)
         {
+            await _especialidadeServiceValidator.Validar(dto);
+
             var especialidade = _mapper.Map<Especialidade>(dto);
 
             especialidade = await _especialidadeRepository.CreateAsync(especialidade);
@@ -56,6 +62,8 @@ namespace Sigpe.Backend.Application.Services
 
         public async Task<EspecialidadeDto> UpdateAsync(EspecialidadeDto dto)
         {
+            await _especialidadeServiceValidator.Validar(dto);
+
             var especialidade = _mapper.Map<Especialidade>(dto);
 
             especialidade = await _especialidadeRepository.UpdateAsync(especialidade);

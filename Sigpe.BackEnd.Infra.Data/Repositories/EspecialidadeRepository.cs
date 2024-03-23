@@ -40,6 +40,11 @@ namespace Sigpe.BackEnd.Infra.Data.Repositories
             return await _context.Especialidades.FindAsync(id);
         }
 
+        public async Task<Especialidade?> GetByNomeAsync(string nome)
+        {
+            return await _context.Especialidades.FirstOrDefaultAsync(e => e.Nome.ToUpper() == nome.ToUpper());
+        }
+
         public async Task<Especialidade> UpdateAsync(Especialidade entity)
         {
             _context.Update(entity);

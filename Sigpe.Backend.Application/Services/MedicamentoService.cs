@@ -22,7 +22,7 @@ namespace Sigpe.Backend.Application.Services
 
         public async Task<MedicamentoDto> CreateAsync(MedicamentoDto dto)
         {
-            _medicamentoServiceValidator.Validar(dto);
+            await _medicamentoServiceValidator.Validar(dto);
 
             var medicamento = _mapper.Map<Medicamento>(dto);
 
@@ -59,6 +59,8 @@ namespace Sigpe.Backend.Application.Services
 
         public async Task<MedicamentoDto> UpdateAsync(MedicamentoDto dto)
         {
+            await _medicamentoServiceValidator.Validar(dto);
+
             var medicamento = _mapper.Map<Medicamento>(dto);
 
             medicamento = await _medicamentoRepository.UpdateAsync(medicamento);

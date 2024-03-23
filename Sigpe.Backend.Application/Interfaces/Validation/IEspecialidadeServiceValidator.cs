@@ -2,7 +2,7 @@
 
 namespace Sigpe.Backend.Application.Interfaces.Validation
 {
-    public interface IMedicamentoServiceValidator : IServiceValidator<MedicamentoDto>
+    public interface IEspecialidadeServiceValidator : IServiceValidator<EspecialidadeDto>
     {
     }
 }
