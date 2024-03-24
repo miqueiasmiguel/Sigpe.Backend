@@ -21,6 +21,14 @@ namespace Sigpe.Backend.Application.Validation
             await ValidarUsuarioExistentePorTipo(dto);
         }
 
+        public async Task ValidarLogin(LoginDto dto)
+        {
+            var usuario = await _usuarioRepository.GetByEmailSenhaAsync(dto.Email, dto.Senha!);
+
+            if (usuario == null)
+                throw new Exception("Usuário ou senha incorretos!");
+        }
+
         private void ValidarObjetoNulo(UsuarioDto dto)
         {
             ArgumentNullException.ThrowIfNull(dto);

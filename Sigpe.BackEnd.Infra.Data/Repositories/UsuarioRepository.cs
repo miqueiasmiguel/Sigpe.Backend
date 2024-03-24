@@ -51,6 +51,11 @@ namespace Sigpe.BackEnd.Infra.Data.Repositories
             return await _context.Usuarios.FirstOrDefaultAsync(e => e.PessoaId == pessoaId && e.TipoUsuario == tipo);
         }
 
+        public async Task<Usuario?> GetByEmailSenhaAsync(string email, string senha)
+        {
+            return await _context.Usuarios.FirstOrDefaultAsync(e => e.Email.ToUpper() == email.ToUpper() && e.Senha == senha);
+        }
+
         public async Task<Usuario> UpdateAsync(Usuario entity)
         {
             _context.Update(entity);

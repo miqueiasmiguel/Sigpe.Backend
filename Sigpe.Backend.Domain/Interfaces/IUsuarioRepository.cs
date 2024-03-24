@@ -7,5 +7,6 @@ namespace Sigpe.Backend.Domain.Interfaces
     {
         Task<Usuario?> GetByEmailAsync(string email);
         Task<Usuario?> GetByPessoaIdTipoAsync(int pessoaId, TipoUsuarioEnum tipo);
+        Task<Usuario?> GetByEmailSenhaAsync(string email, string senha);
     }
 }

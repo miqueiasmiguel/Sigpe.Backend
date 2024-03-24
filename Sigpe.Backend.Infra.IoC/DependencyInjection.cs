@@ -7,6 +7,8 @@ using Sigpe.Backend.Application.Mapping;
 using Sigpe.Backend.Application.Services;
 using Sigpe.Backend.Application.Validation;
 using Sigpe.Backend.Domain.Interfaces;
+using Sigpe.Backend.Domain.Interfaces.Auth;
+using Sigpe.BackEnd.Infra.Data.Auth;
 using Sigpe.BackEnd.Infra.Data.Context;
 using Sigpe.BackEnd.Infra.Data.Repositories;
 
@@ -46,6 +48,8 @@ namespace Sigpe.Backend.Infra.IoC
             services.AddScoped<IPacienteServiceValidator, PacienteServiceValidator>();
             services.AddScoped<IPlanoSaudeServiceValidator, PlanoSaudeServiceValidator>();
             services.AddScoped<IUsuarioServiceValidator, UsuarioServiceValidator>();
+
+            services.AddScoped<ITokenGenerator, TokenGenerator>();
 
             return services;
         }

@@ -4,6 +4,7 @@ using Sigpe.Backend.Application.Interfaces.Services;
 using Sigpe.Backend.Application.Interfaces.Validation;
 using Sigpe.Backend.Domain.Entities;
 using Sigpe.Backend.Domain.Interfaces;
+using Sigpe.Backend.Domain.Interfaces.Auth;
 
 namespace Sigpe.Backend.Application.Services
 {
@@ -11,13 +12,15 @@ namespace Sigpe.Backend.Application.Services
     {
         private readonly IUsuarioRepository _usuarioRepository;
         private readonly IUsuarioServiceValidator _usuarioServiceValidator;
+        private readonly ITokenGenerator _tokenGenerator;
         private readonly IMapper _mapper;
 
-        public UsuarioService(IUsuarioRepository usuarioRepository, IMapper mapper, IUsuarioServiceValidator usuarioServiceValidator)
+        public UsuarioService(IUsuarioRepository usuarioRepository, IMapper mapper, IUsuarioServiceValidator usuarioServiceValidator, ITokenGenerator tokenGenerator)
         {
             _usuarioRepository = usuarioRepository;
             _mapper = mapper;
             _usuarioServiceValidator = usuarioServiceValidator;
+            _tokenGenerator = tokenGenerator;
         }
 
         public async Task<UsuarioDto> CreateAsync(UsuarioDto dto)
@@ -68,6 +71,15 @@ namespace Sigpe.Backend.Application.Services
             usuario = await _usuarioRepository.UpdateAsync(usuario);
 
             return _mapper.Map<UsuarioDto>(usuario);
+        }
+
+        public async Task<dynamic> GenerateTokenAsync(LoginDto dto)
+        {
+            await _usuarioServiceValidator.ValidarLogin(dto);
+
+            var usuario = await _usuarioRepository.GetByEmailSenhaAsync(dto.Email, dto.Senha);
+
+            return _tokenGenerator.Generate(usuario);
         }
     }
 }

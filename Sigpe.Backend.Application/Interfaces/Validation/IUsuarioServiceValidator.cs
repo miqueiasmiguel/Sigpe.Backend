@@ -4,5 +4,6 @@ namespace Sigpe.Backend.Application.Interfaces.Validation
 {
     public interface IUsuarioServiceValidator : IServiceValidator<UsuarioDto>
     {
+        Task ValidarLogin(LoginDto dto);
     }
 }
