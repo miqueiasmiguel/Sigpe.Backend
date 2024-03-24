@@ -1,7 +1,7 @@
 ﻿using Sigpe.Backend.Domain.Entities;
 using Sigpe.Backend.Domain.Enums;
 
-namespace Sigpe.Backend.Domain.Interfaces
+namespace Sigpe.Backend.Domain.Interfaces.Repositories
 {
     public interface IUsuarioRepository : IRepository<Usuario>
     {

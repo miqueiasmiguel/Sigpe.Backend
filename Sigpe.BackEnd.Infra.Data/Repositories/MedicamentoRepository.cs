@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Sigpe.Backend.Domain.Entities;
-using Sigpe.Backend.Domain.Interfaces;
+using Sigpe.Backend.Domain.Interfaces.Repositories;
 using Sigpe.BackEnd.Infra.Data.Context;
 
 namespace Sigpe.BackEnd.Infra.Data.Repositories

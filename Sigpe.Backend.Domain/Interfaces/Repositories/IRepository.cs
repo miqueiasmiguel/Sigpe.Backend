@@ -1,4 +1,4 @@
-﻿namespace Sigpe.Backend.Domain.Interfaces
+﻿namespace Sigpe.Backend.Domain.Interfaces.Repositories
 {
     public interface IRepository<T>
     {

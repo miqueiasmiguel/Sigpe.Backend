@@ -2,7 +2,7 @@
 using Sigpe.Backend.Application.Dtos;
 using Sigpe.Backend.Application.Interfaces.Services;
 using Sigpe.Backend.Domain.Entities;
-using Sigpe.Backend.Domain.Interfaces;
+using Sigpe.Backend.Domain.Interfaces.Repositories;
 
 namespace Sigpe.Backend.Application.Services
 {
