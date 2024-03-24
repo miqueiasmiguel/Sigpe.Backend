@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Sigpe.Backend.Application.Dtos;
 using Sigpe.Backend.Application.Interfaces.Services;
+using Sigpe.Backend.Application.Interfaces.Validation;
 using Sigpe.Backend.Domain.Entities;
 using Sigpe.Backend.Domain.Interfaces;
 
@@ -9,16 +10,20 @@ namespace Sigpe.Backend.Application.Services
     public class UsuarioService : IUsuarioService
     {
         private readonly IUsuarioRepository _usuarioRepository;
+        private readonly IUsuarioServiceValidator _usuarioServiceValidator;
         private readonly IMapper _mapper;
 
-        public UsuarioService(IUsuarioRepository usuarioRepository, IMapper mapper)
+        public UsuarioService(IUsuarioRepository usuarioRepository, IMapper mapper, IUsuarioServiceValidator usuarioServiceValidator)
         {
             _usuarioRepository = usuarioRepository;
             _mapper = mapper;
+            _usuarioServiceValidator = usuarioServiceValidator;
         }
 
         public async Task<UsuarioDto> CreateAsync(UsuarioDto dto)
         {
+            await _usuarioServiceValidator.Validar(dto);
+
             var usuario = _mapper.Map<Usuario>(dto);
 
             usuario = await _usuarioRepository.CreateAsync(usuario);
@@ -56,6 +61,8 @@ namespace Sigpe.Backend.Application.Services
 
         public async Task<UsuarioDto> UpdateAsync(UsuarioDto dto)
         {
+            await _usuarioServiceValidator.Validar(dto);
+
             var usuario = _mapper.Map<Usuario>(dto);
 
             usuario = await _usuarioRepository.UpdateAsync(usuario);

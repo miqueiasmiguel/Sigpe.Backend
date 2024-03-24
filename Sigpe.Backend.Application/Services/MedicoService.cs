@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Sigpe.Backend.Application.Dtos;
 using Sigpe.Backend.Application.Interfaces.Services;
+using Sigpe.Backend.Application.Interfaces.Validation;
 using Sigpe.Backend.Domain.Entities;
 using Sigpe.Backend.Domain.Interfaces;
 
@@ -9,16 +10,20 @@ namespace Sigpe.Backend.Application.Services
     public class MedicoService : IMedicoService
     {
         private readonly IMedicoRepository _medicoRepository;
+        private readonly IMedicoServiceValidator _medicoServiceValidator;
         private readonly IMapper _mapper;
 
-        public MedicoService(IMedicoRepository medicoRepository, IMapper mapper)
+        public MedicoService(IMedicoRepository medicoRepository, IMapper mapper, IMedicoServiceValidator medicoServiceValidator)
         {
             _medicoRepository = medicoRepository;
             _mapper = mapper;
+            _medicoServiceValidator = medicoServiceValidator;
         }
 
         public async Task<MedicoDto> CreateAsync(MedicoDto dto)
         {
+            await _medicoServiceValidator.Validar(dto);
+
             var medico = _mapper.Map<Medico>(dto);
 
             medico = await _medicoRepository.CreateAsync(medico);
@@ -56,6 +61,8 @@ namespace Sigpe.Backend.Application.Services
 
         public async Task<MedicoDto> UpdateAsync(MedicoDto dto)
         {
+            await _medicoServiceValidator.Validar(dto);
+
             var medico = _mapper.Map<Medico>(dto);
 
             medico = await _medicoRepository.UpdateAsync(medico);

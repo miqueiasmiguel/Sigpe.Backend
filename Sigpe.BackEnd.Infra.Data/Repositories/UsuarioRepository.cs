@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Sigpe.Backend.Domain.Entities;
+using Sigpe.Backend.Domain.Enums;
 using Sigpe.Backend.Domain.Interfaces;
 using Sigpe.BackEnd.Infra.Data.Context;
 
@@ -38,6 +39,16 @@ namespace Sigpe.BackEnd.Infra.Data.Repositories
         public async Task<Usuario?> GetByIdAsync(int id)
         {
             return await _context.Usuarios.FindAsync(id);
+        }
+
+        public async Task<Usuario?> GetByEmailAsync(string email)
+        {
+            return await _context.Usuarios.FirstOrDefaultAsync(e => e.Email == email);
+        }
+
+        public async Task<Usuario?> GetByPessoaIdTipoAsync(int pessoaId, TipoUsuarioEnum tipo)
+        {
+            return await _context.Usuarios.FirstOrDefaultAsync(e => e.PessoaId == pessoaId && e.TipoUsuario == tipo);
         }
 
         public async Task<Usuario> UpdateAsync(Usuario entity)
