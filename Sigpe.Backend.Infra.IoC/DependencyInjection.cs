@@ -48,6 +48,7 @@ namespace Sigpe.Backend.Infra.IoC
             services.AddScoped<IMedicoServiceValidator, MedicoServiceValidator>();
             services.AddScoped<IPacienteServiceValidator, PacienteServiceValidator>();
             services.AddScoped<IPlanoSaudeServiceValidator, PlanoSaudeServiceValidator>();
+            services.AddScoped<IPrescricaoServiceValidator, PrescricaoServiceValidator>();
             services.AddScoped<IUsuarioServiceValidator, UsuarioServiceValidator>();
 
             services.AddScoped<ITokenGenerator, TokenGenerator>();
