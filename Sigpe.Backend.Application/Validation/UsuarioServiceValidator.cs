@@ -1,5 +1,6 @@
 ﻿using Sigpe.Backend.Application.Dtos;
 using Sigpe.Backend.Application.Interfaces.Validation;
+using Sigpe.Backend.Domain.Enums;
 using Sigpe.Backend.Domain.Interfaces.Repositories;
 
 namespace Sigpe.Backend.Application.Validation
@@ -23,7 +24,13 @@ namespace Sigpe.Backend.Application.Validation
 
         public async Task ValidarLogin(LoginDto dto)
         {
-            var usuario = await _usuarioRepository.GetByEmailSenhaAsync(dto.Email, dto.Senha!);
+            if (string.IsNullOrEmpty(dto.Email))
+                throw new Exception($"{nameof(dto.Email)} é obrigatório.");
+
+            if (string.IsNullOrEmpty(dto.Senha))
+                throw new Exception($"{nameof(dto.Senha)} é obrigatório.");
+
+            var usuario = await _usuarioRepository.GetByEmailSenhaAsync(dto.Email, dto.Senha);
 
             if (usuario == null)
                 throw new Exception("Usuário ou senha incorretos!");
@@ -46,7 +53,7 @@ namespace Sigpe.Backend.Application.Validation
                 throw new Exception($"{nameof(dto.Senha)} é obrigatório.");
             }
 
-            if (!dto.PessoaId.HasValue)
+            if (!dto.PessoaId.HasValue && (dto.TipoUsuario.Equals(TipoUsuarioEnum.MEDICO) || dto.TipoUsuario.Equals(TipoUsuarioEnum.PACIENTE)))
             {
                 throw new Exception($"{nameof(dto.PessoaId)} é obrigatório.");
             }

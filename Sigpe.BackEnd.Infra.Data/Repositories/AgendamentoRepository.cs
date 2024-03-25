@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Sigpe.Backend.Domain.Entities;
+using Sigpe.Backend.Domain.Enums;
 using Sigpe.Backend.Domain.Interfaces.Repositories;
 using Sigpe.BackEnd.Infra.Data.Context;
 
@@ -38,6 +39,14 @@ namespace Sigpe.BackEnd.Infra.Data.Repositories
         public async Task<Agendamento?> GetByIdAsync(int id)
         {
             return await _context.Agendamentos.FindAsync(id);
+        }
+
+        public async Task<Agendamento?> VerificarDisponibilidade(DateTime data, int medicoId, int id)
+        {
+            return await _context.Agendamentos.FirstOrDefaultAsync(e => e.DataHora <= data.AddMinutes(30)
+                                                                     && e.DataHora >= data.AddMinutes(-30)
+                                                                     && e.Status.Equals(StatusAgendamentoEnum.SOLICITADO)
+                                                                     && e.Id != id);
         }
 
         public async Task<Agendamento> UpdateAsync(Agendamento entity)
