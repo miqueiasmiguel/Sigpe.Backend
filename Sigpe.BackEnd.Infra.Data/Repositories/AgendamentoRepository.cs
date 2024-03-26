@@ -38,7 +38,27 @@ namespace Sigpe.BackEnd.Infra.Data.Repositories
 
         public async Task<Agendamento?> GetByIdAsync(int id)
         {
-            return await _context.Agendamentos.FindAsync(id);
+            return await _context.Agendamentos
+                                    .Include(e => e.Medico)
+                                    .Include(e => e.Paciente)
+                                    .FirstOrDefaultAsync(e => e.Id == id);
+        }
+
+        public async Task<List<Agendamento>> GetByMedicoIdAsync(int id)
+        {
+            return await _context.Agendamentos
+                                    .Include(e => e.Paciente)
+                                    .Where(e => e.MedicoId == id)
+                                    .ToListAsync();
+        }
+
+        public async Task<List<Agendamento>> GetByPacienteIdAsync(int id)
+        {
+            return await _context.Agendamentos
+                                    .Include(e => e.Medico)
+                                    .Include(e => e.Medico)
+                                    .Where(e => e.PacienteId == id)
+                                    .ToListAsync();
         }
 
         public async Task<Agendamento?> VerificarDisponibilidade(DateTime data, int medicoId, int id)

@@ -10,5 +10,7 @@ namespace Sigpe.Backend.Application.Dtos
         public StatusAgendamentoEnum? Status { get; set; }
         public int? PacienteId { get; set; }
         public int? MedicoId { get; set; }
+        public PacienteDto? Paciente { get; set; }
+        public MedicoDto? Medico { get; set; }
     }
 }

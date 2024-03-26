@@ -46,6 +46,38 @@ namespace Sigpe.Backend.Api.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("Medico/{id}")]
+        public async Task<IActionResult> GetByMedicoIdAsync(int id)
+        {
+            try
+            {
+                var prescricoesDto = await _prescricaoService.GetByMedicoIdAsync(id);
+
+                return Ok(prescricoesDto);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { StatusCode = 400, ex.Message });
+            }
+        }
+
+        [HttpGet]
+        [Route("Paciente/{id}")]
+        public async Task<IActionResult> GetByPacienteIdAsync(int id)
+        {
+            try
+            {
+                var prescricoesDto = await _prescricaoService.GetByPacienteIdAsync(id);
+
+                return Ok(prescricoesDto);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { StatusCode = 400, ex.Message });
+            }
+        }
+
         [HttpPost]
         public async Task<IActionResult> PostAsync([FromBody] PrescricaoDto dto)
         {

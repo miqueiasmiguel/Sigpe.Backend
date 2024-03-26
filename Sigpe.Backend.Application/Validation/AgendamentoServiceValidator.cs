@@ -1,5 +1,6 @@
 ﻿using Sigpe.Backend.Application.Dtos;
 using Sigpe.Backend.Application.Interfaces.Validation;
+using Sigpe.Backend.Domain.Entities;
 using Sigpe.Backend.Domain.Interfaces.Repositories;
 
 namespace Sigpe.Backend.Application.Validation
@@ -78,6 +79,23 @@ namespace Sigpe.Backend.Application.Validation
             {
                 throw new Exception("Paciente não encontrado.");
             }
+        }
+
+        public async Task ValidarExisteMedico(int id)
+        {
+            var medico = await _medicoRepository.GetByIdAsync(id);
+
+            if (medico == null)
+            {
+                throw new Exception("Medico não encontrado");
+            }
+        }
+
+        public async Task<Paciente> ValidarExistePaciente(int id)
+        {
+            var paciente = await _pacienteRepository.GetByIdAsync(id);
+
+            return paciente ?? throw new Exception("Paciente não encontrado");
         }
     }
 }

@@ -54,6 +54,8 @@ namespace Sigpe.Backend.Application.Services
 
         public async Task<PacienteDto?> GetByIdAsync(int id)
         {
+            await _pacienteServiceValidator.ValidarPacienteExistente(id);
+
             var paciente = await _pacienteRepository.GetByIdAsync(id);
 
             return _mapper.Map<PacienteDto>(paciente);

@@ -1,5 +1,6 @@
 ﻿using Sigpe.Backend.Application.Dtos;
 using Sigpe.Backend.Application.Interfaces.Validation;
+using Sigpe.Backend.Domain.Entities;
 using Sigpe.Backend.Domain.Interfaces.Repositories;
 
 namespace Sigpe.Backend.Application.Validation
@@ -70,7 +71,22 @@ namespace Sigpe.Backend.Application.Validation
 
         private async Task ValidarMedico(PrescricaoDto dto)
         {
-            var medico = await _medicoRepository.GetByIdAsync(dto.MedicoId.Value);
+            await ValidarExisteMedico(dto.Id ?? 0);
+        }
+
+        private async Task ValidarPaciente(PrescricaoDto dto)
+        {
+            var paciente = await ValidarExistePaciente(dto.Id ?? 0);
+
+            if (paciente.Alergias.Any(m => m.Id == dto.MedicamentoId))
+            {
+                throw new Exception("O paciente é alergico a este medicamento.");
+            }
+        }
+
+        public async Task ValidarExisteMedico(int id)
+        {
+            var medico = await _medicoRepository.GetByIdAsync(id);
 
             if (medico == null)
             {
@@ -78,19 +94,11 @@ namespace Sigpe.Backend.Application.Validation
             }
         }
 
-        private async Task ValidarPaciente(PrescricaoDto dto)
+        public async Task<Paciente> ValidarExistePaciente(int id)
         {
-            var paciente = await _pacienteRepository.GetByIdAsync(dto.PacienteId.Value);
+            var paciente = await _pacienteRepository.GetByIdAsync(id);
 
-            if (paciente == null)
-            {
-                throw new Exception("Paciente não encontrado");
-            }
-
-            if (paciente.Alergias.Any(m => m.Id == dto.MedicamentoId))
-            {
-                throw new Exception("O paciente é alergico a este medicamento.");
-            }
+            return paciente ?? throw new Exception("Paciente não encontrado");
         }
     }
 }

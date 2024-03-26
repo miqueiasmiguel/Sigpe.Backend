@@ -40,6 +40,24 @@ namespace Sigpe.BackEnd.Infra.Data.Repositories
             return await _context.Prescricoes.FindAsync(id);
         }
 
+        public async Task<List<Prescricao>> GetByMedicoIdAsync(int id)
+        {
+            return await _context.Prescricoes
+                                    .Include(e => e.Medicamento)
+                                    .Include(e => e.Paciente)
+                                    .Where(e => e.MedicoId == id)
+                                    .ToListAsync();
+        }
+
+        public async Task<List<Prescricao>> GetByPacienteIdAsync(int id)
+        {
+            return await _context.Prescricoes
+                                    .Include(e => e.Medicamento)
+                                    .Include(e => e.Medico)
+                                    .Where(e => e.PacienteId == id)
+                                    .ToListAsync();
+        }
+
         public async Task<Prescricao> UpdateAsync(Prescricao entity)
         {
             _context.Update(entity);

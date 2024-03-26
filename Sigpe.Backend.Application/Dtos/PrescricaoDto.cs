@@ -1,4 +1,6 @@
-﻿namespace Sigpe.Backend.Application.Dtos
+﻿using Sigpe.Backend.Domain.Entities;
+
+namespace Sigpe.Backend.Application.Dtos
 {
     public class PrescricaoDto
     {
@@ -8,5 +10,8 @@
         public int? MedicamentoId { get; set; }
         public int? PacienteId { get; set; }
         public int? MedicoId { get; set; }
+        public MedicamentoDto? Medicamento { get; set; }
+        public PacienteDto? Paciente { get; set; }
+        public MedicoDto? Medico { get; set; }
     }
 }

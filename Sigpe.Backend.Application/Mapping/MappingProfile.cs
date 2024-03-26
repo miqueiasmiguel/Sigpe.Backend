@@ -11,13 +11,10 @@ namespace Sigpe.Backend.Application.Mapping
             CreateMap<AgendamentoDto, Agendamento>();
             CreateMap<Agendamento, AgendamentoDto>();
 
-            CreateMap<EspecialidadeDto, Especialidade>()
-                .ForMember(e => e.Medicos, opt => opt.Ignore());
+            CreateMap<EspecialidadeDto, Especialidade>();
             CreateMap<Especialidade, EspecialidadeDto>();
 
-            CreateMap<MedicamentoDto, Medicamento>()
-                .ForMember(e => e.Prescricoes, opt => opt.Ignore())
-                .ForMember(e => e.Alergicos, opt => opt.Ignore());
+            CreateMap<MedicamentoDto, Medicamento>();
             CreateMap<Medicamento, MedicamentoDto>();
 
             CreateMap<MedicoDto, Medico>();
@@ -25,6 +22,7 @@ namespace Sigpe.Backend.Application.Mapping
 
             CreateMap<PacienteDto, Paciente>();
             CreateMap<Paciente, PacienteDto>();
+
 
             CreateMap<PlanoSaudeDto, PlanoSaude>();
             CreateMap<PlanoSaude, PlanoSaudeDto>();

@@ -62,6 +62,24 @@ namespace Sigpe.Backend.Application.Services
             return _mapper.Map<AgendamentoDto>(agendamento);
         }
 
+        public async Task<List<AgendamentoDto>> GetByMedicoIdAsync(int id)
+        {
+            await _agendamentoServiceValidator.ValidarExisteMedico(id);
+
+            var agendamentos = await _agendamentoRepository.GetByMedicoIdAsync(id);
+
+            return _mapper.Map<List<AgendamentoDto>>(agendamentos);
+        }
+
+        public async Task<List<AgendamentoDto>> GetByPacienteIdAsync(int id)
+        {
+            await _agendamentoServiceValidator.ValidarExistePaciente(id);
+
+            var agendamentos = await _agendamentoRepository.GetByPacienteIdAsync(id);
+
+            return _mapper.Map<List<AgendamentoDto>>(agendamentos);
+        }
+
         public async Task<AgendamentoDto> UpdateAsync(AgendamentoDto dto)
         {
             await _agendamentoServiceValidator.Validar(dto);

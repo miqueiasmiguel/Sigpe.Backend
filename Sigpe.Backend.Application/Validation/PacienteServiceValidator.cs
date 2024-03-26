@@ -7,10 +7,12 @@ namespace Sigpe.Backend.Application.Validation
     public class PacienteServiceValidator : IPacienteServiceValidator
     {
         private readonly IPlanoSaudeRepository _planoSaudeRepository;
+        private readonly IPacienteRepository _pacienteRepository;
 
-        public PacienteServiceValidator(IPlanoSaudeRepository planoSaudeRepository)
+        public PacienteServiceValidator(IPlanoSaudeRepository planoSaudeRepository, IPacienteRepository pacienteRepository)
         {
             _planoSaudeRepository = planoSaudeRepository;
+            _pacienteRepository = pacienteRepository;
         }
 
         public async Task Validar(PacienteDto dto)
@@ -18,6 +20,7 @@ namespace Sigpe.Backend.Application.Validation
             ValidarObjetoNulo(dto);
             ValidarCamposObrigatorios(dto);
             await ValidarPlanoSaude(dto);
+            await ValidarPaciente(dto);
         }
 
         private void ValidarObjetoNulo(PacienteDto dto)
@@ -70,6 +73,24 @@ namespace Sigpe.Backend.Application.Validation
             if (planoSaude != null)
             {
                 throw new Exception("Plano de saúde não cadastrado.");
+            }
+        }
+
+        private async Task ValidarPaciente(PacienteDto dto)
+        {
+            if ((dto.Id ?? 0) != 0)
+            {
+                await ValidarPacienteExistente(dto.Id.Value);
+            }
+        }
+
+        public async Task ValidarPacienteExistente(int id)
+        {
+            var paciente = await _pacienteRepository.GetByIdAsync(id);
+
+            if (paciente == null)
+            {
+                throw new Exception("Paciente não encontrado.");
             }
         }
     }

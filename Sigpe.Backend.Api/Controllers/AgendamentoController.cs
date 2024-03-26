@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Sigpe.Backend.Application.Dtos;
 using Sigpe.Backend.Application.Interfaces.Services;
+using Sigpe.Backend.Application.Services;
 
 namespace Sigpe.Backend.Api.Controllers
 {
@@ -37,6 +38,38 @@ namespace Sigpe.Backend.Api.Controllers
             try
             {
                 var agendamentosDto = await _agendamentoService.GetByIdAsync(id);
+
+                return Ok(agendamentosDto);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { StatusCode = 400, ex.Message });
+            }
+        }
+
+        [HttpGet]
+        [Route("Medico/{id}")]
+        public async Task<IActionResult> GetByMedicoIdAsync(int id)
+        {
+            try
+            {
+                var agendamentosDto = await _agendamentoService.GetByMedicoIdAsync(id);
+
+                return Ok(agendamentosDto);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { StatusCode = 400, ex.Message });
+            }
+        }
+
+        [HttpGet]
+        [Route("Paciente/{id}")]
+        public async Task<IActionResult> GetByPacienteIdAsync(int id)
+        {
+            try
+            {
+                var agendamentosDto = await _agendamentoService.GetByPacienteIdAsync(id);
 
                 return Ok(agendamentosDto);
             }

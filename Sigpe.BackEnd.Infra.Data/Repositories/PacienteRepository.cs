@@ -37,7 +37,12 @@ namespace Sigpe.BackEnd.Infra.Data.Repositories
 
         public async Task<Paciente?> GetByIdAsync(int id)
         {
-            return await _context.Pacientes.FindAsync(id);
+            return await _context.Pacientes
+                                    .Include(e => e.Agendamentos)
+                                    .Include(e => e.Alergias)
+                                    .Include(e => e.Prescricoes)
+                                    .Include(e => e.PlanoSaude)
+                                    .FirstOrDefaultAsync(e => e.Id == id);
         }
 
         public async Task<Paciente> UpdateAsync(Paciente entity)
