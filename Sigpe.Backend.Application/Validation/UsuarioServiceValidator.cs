@@ -18,6 +18,7 @@ namespace Sigpe.Backend.Application.Validation
         {
             ValidarObjetoNulo(dto);
             ValidarCamposObrigatorios(dto);
+            await ValidarUsuarioExistentePorId(dto);
             await ValidarUsuarioExistentePorEmail(dto);
             await ValidarUsuarioExistentePorTipo(dto);
         }
@@ -64,11 +65,22 @@ namespace Sigpe.Backend.Application.Validation
             }
         }
 
+        private async Task ValidarUsuarioExistentePorId(UsuarioDto dto)
+        {
+            var usuario = await _usuarioRepository.GetByIdAsync(dto.Id ?? 0);
+
+            if (usuario == null)
+            {
+                throw new Exception("Usuário não encontrado.");
+            }
+        }
+
+
         private async Task ValidarUsuarioExistentePorEmail(UsuarioDto dto)
         {
             var usuario = await _usuarioRepository.GetByEmailAsync(dto.Email);
 
-            if (usuario != null )
+            if (usuario != null && usuario.Id != dto.Id)
             {
                 throw new Exception("Já existe um usuário cadastrado com este e-mail.");
             }
@@ -78,7 +90,7 @@ namespace Sigpe.Backend.Application.Validation
         {
             var usuario = await _usuarioRepository.GetByPessoaIdTipoAsync(dto.PessoaId ?? 0, dto.TipoUsuario ?? 0);
 
-            if (usuario != null)
+            if (usuario != null && usuario.Id != dto.Id)
             {
                 throw new Exception("Já existe um usuário cadastrado para esta pessoa.");
             }

@@ -66,11 +66,13 @@ namespace Sigpe.Backend.Application.Services
         {
             await _usuarioServiceValidator.Validar(dto);
 
-            var usuario = _mapper.Map<Usuario>(dto);
+            var usuario = await _usuarioRepository.GetByIdAsync(dto.Id.Value);
 
-            usuario = await _usuarioRepository.UpdateAsync(usuario);
+            usuario = _mapper.Map<UsuarioDto, Usuario>(dto, usuario);
 
-            return _mapper.Map<UsuarioDto>(usuario);
+            var usuarioAlterado = await _usuarioRepository.UpdateAsync(usuario);
+
+            return _mapper.Map<UsuarioDto>(usuarioAlterado);
         }
 
         public async Task<dynamic> GenerateTokenAsync(LoginDto dto)
