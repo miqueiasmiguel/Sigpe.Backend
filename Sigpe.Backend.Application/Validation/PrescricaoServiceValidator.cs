@@ -7,15 +7,17 @@ namespace Sigpe.Backend.Application.Validation
 {
     public class PrescricaoServiceValidator : IPrescricaoServiceValidator
     {
+        private readonly IPrescricaoRepository _prescricaoRepository;
         private readonly IMedicamentoRepository _medicamentoRepository;
         private readonly IMedicoRepository _medicoRepository;
         private readonly IPacienteRepository _pacienteRepository;
 
-        public PrescricaoServiceValidator(IMedicamentoRepository medicamentoRepository, IMedicoRepository medicoRepository, IPacienteRepository pacienteRepository)
+        public PrescricaoServiceValidator(IMedicamentoRepository medicamentoRepository, IMedicoRepository medicoRepository, IPacienteRepository pacienteRepository, IPrescricaoRepository prescricaoRepository)
         {
             _medicamentoRepository = medicamentoRepository;
             _medicoRepository = medicoRepository;
             _pacienteRepository = pacienteRepository;
+            _prescricaoRepository = prescricaoRepository;
         }
 
         public async Task Validar(PrescricaoDto dto)
@@ -24,6 +26,7 @@ namespace Sigpe.Backend.Application.Validation
             await ValidarMedicamento(dto);
             await ValidarMedico(dto);
             await ValidarPaciente(dto);
+            await ValidarPrescricao(dto);
         }
 
         private void ValidarCamposObrigatorios(PrescricaoDto dto)
@@ -71,12 +74,12 @@ namespace Sigpe.Backend.Application.Validation
 
         private async Task ValidarMedico(PrescricaoDto dto)
         {
-            await ValidarExisteMedico(dto.Id ?? 0);
+            await ValidarExisteMedico(dto.MedicoId ?? 0);
         }
 
         private async Task ValidarPaciente(PrescricaoDto dto)
         {
-            var paciente = await ValidarExistePaciente(dto.Id ?? 0);
+            var paciente = await ValidarExistePaciente(dto.PacienteId ?? 0);
 
             if (paciente.Alergias.Any(m => m.Id == dto.MedicamentoId))
             {
@@ -99,6 +102,19 @@ namespace Sigpe.Backend.Application.Validation
             var paciente = await _pacienteRepository.GetByIdAsync(id);
 
             return paciente ?? throw new Exception("Paciente não encontrado");
+        }
+
+        private async Task ValidarPrescricao(PrescricaoDto dto)
+        {
+            if ((dto.Id ?? 0) != 0)
+            {
+                var prescricao = await _prescricaoRepository.GetByIdAsync(dto.Id.Value);
+
+                if (prescricao == null)
+                {
+                    throw new Exception("Prescrição não encontrada.");
+                }
+            }
         }
     }
 }

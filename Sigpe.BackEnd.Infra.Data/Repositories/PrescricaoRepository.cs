@@ -32,7 +32,11 @@ namespace Sigpe.BackEnd.Infra.Data.Repositories
 
         public async Task<IEnumerable<Prescricao>> GetAsync()
         {
-            return await _context.Prescricoes.ToListAsync();
+            return await _context.Prescricoes
+                                    .Include(e => e.Medicamento)
+                                    .Include(e => e.Medico)
+                                    .Include(e => e.Paciente)
+                                    .ToListAsync();
         }
 
         public async Task<Prescricao?> GetByIdAsync(int id)

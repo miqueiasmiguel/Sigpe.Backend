@@ -70,7 +70,7 @@ namespace Sigpe.Backend.Application.Validation
         {
             var planoSaude = await _planoSaudeRepository.GetByIdAsync(dto.PlanoSaudeId ?? 0);
 
-            if (planoSaude != null)
+            if (planoSaude == null)
             {
                 throw new Exception("Plano de saúde não cadastrado.");
             }

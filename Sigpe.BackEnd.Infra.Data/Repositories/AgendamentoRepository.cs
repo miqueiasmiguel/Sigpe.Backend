@@ -33,7 +33,10 @@ namespace Sigpe.BackEnd.Infra.Data.Repositories
 
         public async Task<IEnumerable<Agendamento>> GetAsync()
         {
-            return await _context.Agendamentos.ToListAsync();
+            return await _context.Agendamentos
+                                    .Include(e => e.Medico)
+                                    .Include(e => e.Paciente)
+                                    .ToListAsync();
         }
 
         public async Task<Agendamento?> GetByIdAsync(int id)

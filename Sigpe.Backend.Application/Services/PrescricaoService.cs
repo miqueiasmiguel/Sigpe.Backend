@@ -84,7 +84,13 @@ namespace Sigpe.Backend.Application.Services
         {
             await _prescricaoServiceValidator.Validar(dto);
 
-            var prescricao = _mapper.Map<Prescricao>(dto);
+            var prescricao = await _prescricaoRepository.GetByIdAsync(dto.Id ?? 0);
+
+            prescricao.Data = dto.Data.Value;
+            prescricao.Instrucoes = dto.Instrucoes;
+            prescricao.MedicamentoId = dto.MedicamentoId.Value;
+            prescricao.MedicoId = dto.MedicoId.Value;
+            prescricao.PacienteId = dto.PacienteId.Value;
 
             prescricao = await _prescricaoRepository.UpdateAsync(prescricao);
 

@@ -63,7 +63,9 @@ namespace Sigpe.Backend.Application.Services
         {
             await _especialidadeServiceValidator.Validar(dto);
 
-            var especialidade = _mapper.Map<Especialidade>(dto);
+            var especialidade = await _especialidadeRepository.GetByIdAsync(dto.Id ?? 0);
+
+            especialidade = _mapper.Map<EspecialidadeDto, Especialidade>(dto, especialidade);
 
             especialidade = await _especialidadeRepository.UpdateAsync(especialidade);
 

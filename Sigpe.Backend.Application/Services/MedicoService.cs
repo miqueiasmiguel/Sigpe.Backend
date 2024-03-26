@@ -63,7 +63,14 @@ namespace Sigpe.Backend.Application.Services
         {
             await _medicoServiceValidator.Validar(dto);
 
-            var medico = _mapper.Map<Medico>(dto);
+            var medico = await _medicoRepository.GetByIdAsync(dto.Id ?? 0);
+
+            medico.DataNascimento = dto.DataNascimento.Value;
+            medico.Telefone = dto.Telefone;
+            medico.Nome = dto.Nome;
+            medico.Endereco = dto.Endereco;
+            medico.Crm = dto.Crm;
+            medico.EspecialidadeId = dto.EspecialidadeId.Value;
 
             medico = await _medicoRepository.UpdateAsync(medico);
 

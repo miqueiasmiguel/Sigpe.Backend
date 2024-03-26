@@ -11,13 +11,15 @@ namespace Sigpe.Backend.Application.Services
     {
         private readonly IPacienteRepository _pacienteRepository;
         private readonly IPacienteServiceValidator _pacienteServiceValidator;
+        private readonly IMedicamentoRepository _medicamentoRepository;
         private readonly IMapper _mapper;
 
-        public PacienteService(IPacienteRepository pacienteRepository, IMapper mapper, IPacienteServiceValidator pacienteServiceValidator)
+        public PacienteService(IPacienteRepository pacienteRepository, IMapper mapper, IPacienteServiceValidator pacienteServiceValidator, IMedicamentoRepository medicamentoRepository)
         {
             _pacienteRepository = pacienteRepository;
             _mapper = mapper;
             _pacienteServiceValidator = pacienteServiceValidator;
+            _medicamentoRepository = medicamentoRepository;
         }
 
         public async Task<PacienteDto> CreateAsync(PacienteDto dto)
@@ -65,7 +67,22 @@ namespace Sigpe.Backend.Application.Services
         {
             await _pacienteServiceValidator.Validar(dto);
 
-            var paciente = _mapper.Map<Paciente>(dto);
+            var paciente = await _pacienteRepository.GetByIdAsync(dto.Id ?? 0);
+
+            var alergias = new List<Medicamento>();
+
+            foreach (var medicamentoDto in dto.Alergias)
+            {
+                var medicamento = await _medicamentoRepository.GetByIdAsync(medicamentoDto.Id ?? 0);
+                alergias.Add(medicamento);
+            }
+
+            paciente.DataNascimento = dto.DataNascimento.Value;
+            paciente.Telefone = dto.Telefone;
+            paciente.Nome = dto.Nome;
+            paciente.Endereco = dto.Endereco;
+            paciente.PlanoSaudeId = dto.PlanoSaudeId;
+            paciente.Alergias = alergias;
 
             paciente = await _pacienteRepository.UpdateAsync(paciente);
 

@@ -63,7 +63,9 @@ namespace Sigpe.Backend.Application.Services
         {
             await _planoSaudeServiceValidator.Validar(dto);
 
-            var planoSaude = _mapper.Map<PlanoSaude>(dto);
+            var planoSaude = await _planoSaudeRepository.GetByIdAsync(dto.Id ?? 0);
+
+            planoSaude = _mapper.Map<PlanoSaudeDto, PlanoSaude>(dto, planoSaude);
 
             planoSaude = await _planoSaudeRepository.UpdateAsync(planoSaude);
 

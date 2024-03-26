@@ -67,6 +67,11 @@ namespace Sigpe.Backend.Application.Validation
 
         private async Task ValidarUsuarioExistentePorId(UsuarioDto dto)
         {
+            if ((dto.Id ?? 0) == 0)
+            {
+                return;
+            }
+
             var usuario = await _usuarioRepository.GetByIdAsync(dto.Id ?? 0);
 
             if (usuario == null)

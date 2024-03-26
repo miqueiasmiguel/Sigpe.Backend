@@ -46,6 +46,16 @@ namespace Sigpe.Backend.Application.Validation
             {
                 throw new Exception("Já existe outra especialidade cadastrada com este nome.");
             }
+
+            if ((dto.Id ?? 0) != 0)
+            {
+                especialidade = await _especialidadeRepository.GetByIdAsync(dto.Id.Value);
+
+                if (especialidade == null)
+                {
+                    throw new Exception("Especialidade não encontrada.");
+                }
+            }
         }
     }
 }

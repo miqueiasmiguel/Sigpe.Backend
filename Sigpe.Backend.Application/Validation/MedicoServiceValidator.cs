@@ -7,10 +7,12 @@ namespace Sigpe.Backend.Application.Validation
     public class MedicoServiceValidator : IMedicoServiceValidator
     {
         private readonly IEspecialidadeRepository _especialidadeRepository;
+        private readonly IMedicoRepository _medicoRepository;
 
-        public MedicoServiceValidator(IEspecialidadeRepository especialidadeRepository)
+        public MedicoServiceValidator(IEspecialidadeRepository especialidadeRepository, IMedicoRepository medicoRepository)
         {
             _especialidadeRepository = especialidadeRepository;
+            _medicoRepository = medicoRepository;
         }
 
         public async Task Validar(MedicoDto dto)
@@ -18,6 +20,7 @@ namespace Sigpe.Backend.Application.Validation
             ValidarObjetoNulo(dto);
             ValidarCamposObrigatorios(dto);
             await ValidarEspecialidade(dto);
+            await ValidarMedico(dto);
         }
 
         private void ValidarObjetoNulo(MedicoDto dto)
@@ -72,9 +75,22 @@ namespace Sigpe.Backend.Application.Validation
         {
             var especialidade = await _especialidadeRepository.GetByIdAsync(dto.EspecialidadeId ?? 0);
 
-            if (especialidade != null)
+            if (especialidade == null)
             {
                 throw new Exception("Especialidade não cadastrada.");
+            }
+        }
+
+        private async Task ValidarMedico(MedicoDto dto)
+        {
+            if ((dto.Id ?? 0) != 0)
+            {
+                var medico = await _medicoRepository.GetByIdAsync(dto.Id.Value);
+
+                if (medico == null)
+                {
+                    throw new Exception("Médico não encontrado.");
+                }
             }
         }
     }

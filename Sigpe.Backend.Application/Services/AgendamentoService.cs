@@ -84,7 +84,13 @@ namespace Sigpe.Backend.Application.Services
         {
             await _agendamentoServiceValidator.Validar(dto);
 
-            var agendamento = _mapper.Map<Agendamento>(dto);
+            var agendamento = await _agendamentoRepository.GetByIdAsync(dto.Id ?? 0);
+
+            agendamento.DataHora = dto.DataHora.Value;
+            agendamento.Status = dto.Status.Value;
+            agendamento.Motivo = dto.Motivo;
+            agendamento.MedicoId = dto.MedicoId.Value;
+            agendamento.PacienteId = dto.PacienteId.Value;
 
             agendamento = await _agendamentoRepository.UpdateAsync(agendamento);
 

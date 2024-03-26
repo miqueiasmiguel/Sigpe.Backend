@@ -1,5 +1,6 @@
 ﻿using Sigpe.Backend.Application.Dtos;
 using Sigpe.Backend.Application.Interfaces.Validation;
+using Sigpe.Backend.Domain.Entities;
 using Sigpe.Backend.Domain.Interfaces.Repositories;
 
 namespace Sigpe.Backend.Application.Validation
@@ -40,6 +41,16 @@ namespace Sigpe.Backend.Application.Validation
             if (planoSaude != null && planoSaude.Id != dto.Id)
             {
                 throw new Exception("Já existe outro plano de saúde cadastrado com este nome.");
+            }
+
+            if ((dto.Id ?? 0) != 0)
+            {
+                planoSaude = await _planoSaudeRepository.GetByIdAsync(dto.Id.Value);
+
+                if (planoSaude == null)
+                {
+                    throw new Exception("Plano de saúde não encontrada.");
+                }
             }
         }
     }

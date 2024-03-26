@@ -53,11 +53,26 @@ namespace Sigpe.Backend.Application.Validation
 
         private async Task ValidarAgendamento(AgendamentoDto dto)
         {
+            if ((dto.Id ?? 0) != 0)
+            {
+                await ValidarAgendamentoExistente(dto.Id.Value);
+            }
+
             var agendamento = await _agendamentoRepository.VerificarDisponibilidade(dto.DataHora.Value, dto.MedicoId.Value, dto.Id ?? 0);
 
             if (agendamento != null)
             {
                 throw new Exception("Médico ocupado neste horário.");
+            }
+        }
+
+        private async Task ValidarAgendamentoExistente(int id)
+        {
+            var agendamento = await _agendamentoRepository.GetByIdAsync(id);
+
+            if (agendamento == null)
+            {
+                throw new Exception("Agendamento não encontrado.");
             }
         }
 

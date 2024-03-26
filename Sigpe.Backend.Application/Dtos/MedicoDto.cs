@@ -11,5 +11,6 @@ namespace Sigpe.Backend.Application.Dtos
         public string? Telefone { get; set; }
         public string? Crm { get; set; }
         public int? EspecialidadeId { get; set; }
+        public EspecialidadeDto? Especialidade { get; set; }
     }
 }

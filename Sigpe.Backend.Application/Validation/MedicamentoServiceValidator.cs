@@ -1,5 +1,6 @@
 ﻿using Sigpe.Backend.Application.Dtos;
 using Sigpe.Backend.Application.Interfaces.Validation;
+using Sigpe.Backend.Domain.Entities;
 using Sigpe.Backend.Domain.Interfaces.Repositories;
 
 namespace Sigpe.Backend.Application.Validation
@@ -40,6 +41,16 @@ namespace Sigpe.Backend.Application.Validation
             if (medicamento != null && medicamento.Id != dto.Id)
             {
                 throw new Exception("Já existe outro medicamento cadastrado com este nome.");
+            }
+
+            if ((dto.Id ?? 0) != 0)
+            {
+                medicamento = await _medicamentoRepository.GetByIdAsync(dto.Id.Value);
+
+                if (medicamento == null)
+                {
+                    throw new Exception("Medicamento não encontrada.");
+                }
             }
         }
     }
