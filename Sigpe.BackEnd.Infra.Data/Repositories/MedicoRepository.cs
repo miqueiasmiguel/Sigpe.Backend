@@ -39,7 +39,9 @@ namespace Sigpe.BackEnd.Infra.Data.Repositories
 
         public async Task<Medico?> GetByIdAsync(int id)
         {
-            return await _context.Medicos.FindAsync(id);
+            return await _context.Medicos
+                                    .Include(e => e.Especialidade)
+                                    .FirstOrDefaultAsync(e => e.Id == id);
         }
 
         public async Task<Medico> UpdateAsync(Medico entity)
