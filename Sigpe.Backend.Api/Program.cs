@@ -19,7 +19,7 @@ builder.Services.AddMvc().AddJsonOptions(option =>
     option.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
 });
 
-var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("SYMMETRIC_SECURITY_KEY")));
+var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("ueMRO2FxH05VRIjEp10WMEEGEt0Rnocp"));
 builder.Services.AddAuthentication(authOptions =>
 {
     authOptions.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
