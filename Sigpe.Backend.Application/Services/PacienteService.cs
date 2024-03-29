@@ -28,6 +28,16 @@ namespace Sigpe.Backend.Application.Services
 
             var paciente = _mapper.Map<Paciente>(dto);
 
+            var alergias = new List<Medicamento>();
+
+            foreach (var medicamentoDto in dto.Alergias)
+            {
+                var medicamento = await _medicamentoRepository.GetByIdAsync(medicamentoDto.Id ?? 0);
+                alergias.Add(medicamento);
+            }
+
+            paciente.Alergias = alergias;
+
             paciente = await _pacienteRepository.CreateAsync(paciente);
 
             return _mapper.Map<PacienteDto>(paciente);

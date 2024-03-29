@@ -20,7 +20,7 @@ namespace Sigpe.BackEnd.Infra.Data.Auth
             };
 
             DateTime expires = DateTime.Now.AddDays(1);
-            SymmetricSecurityKey key = new(Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("SYMMETRIC_SECURITY_KEY")));
+            SymmetricSecurityKey key = new(Encoding.UTF8.GetBytes("ueMRO2FxH05VRIjEp10WMEEGEt0Rnocp"));
             JwtSecurityToken tokenData = new(
                 signingCredentials: new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature),
                 expires: expires,

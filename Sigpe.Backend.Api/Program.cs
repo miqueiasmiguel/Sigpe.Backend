@@ -1,8 +1,6 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.EntityFrameworkCore;
 using Sigpe.Backend.Infra.IoC;
-using Sigpe.BackEnd.Infra.Data.Context;
 using System.Text;
 using System.Text.Json.Serialization;
 
@@ -41,11 +39,11 @@ var app = builder.Build();
 
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
-using (var scope = app.Services.CreateScope())
-{
-    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    db.Database.Migrate();
-}
+//using (var scope = app.Services.CreateScope())
+//{
+//    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+//    db.Database.Migrate();
+//}
 
 // Configure the HTTP request pipeline.
 
